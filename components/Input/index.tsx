@@ -1,16 +1,23 @@
 import * as React from 'react';
 import {CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon, XIcon} from "@heroicons/react/outline";
+import {addDoc, collection, doc, serverTimestamp, updateDoc} from "@firebase/firestore";
+import {getDownloadURL, ref, uploadString} from "@firebase/storage";
+import {useSession} from "next-auth/react";
 import {EmojiData, Picker} from 'emoji-mart';
 import "emoji-mart/css/emoji-mart.css";
+
+import {db, storage} from "../../firebase";
 
 interface InputProps {
 
 }
 
 const Input: React.FC<InputProps> = ({}) => {
+  const {data: session} = useSession();
   const [input, setInput] = React.useState<string>("");
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
   const [isShowEmojis, setIsShowEmojis] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const filePickerRef = React.useRef<HTMLInputElement>(null);
 
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,13 +39,46 @@ const Input: React.FC<InputProps> = ({}) => {
     // @ts-ignore
     const sym = e.unified.split("-");
     const codesArray: string[] = [];
-    
+
     sym.forEach((el: string) => codesArray.push("0x" + el));
     // @ts-ignore
     const emoji = String.fromCodePoint(...codesArray);
 
-    setInput(input + emoji)
+    setInput(input + emoji);
   }
+
+  const sendPost = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    const docRef = await addDoc(collection(db, 'posts'), {
+      // @ts-ignore
+      id: session?.user?.uid,
+      username: session?.user?.name,
+      userImg: session?.user?.image,
+      // @ts-ignore
+      tag: session?.user.tag,
+      text: input,
+      timestamp: serverTimestamp(),
+    });
+
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
+
+    if (selectedFile) {
+      await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+      });
+    }
+
+    setIsLoading(false);
+    setInput("");
+    setSelectedFile(null);
+    setIsShowEmojis(false);
+  };
 
   return (
     <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll`}>
@@ -48,7 +88,7 @@ const Input: React.FC<InputProps> = ({}) => {
         alt="profile image"
       />
       <div className="w-full divide-y divide-gray-700">
-        <div className={``}>
+        <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
           <textarea
             value={input}
             rows={2}
@@ -114,8 +154,15 @@ const Input: React.FC<InputProps> = ({}) => {
                 theme="dark"
               />
             )}
-
           </div>
+
+          <button className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md
+          hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+                  disabled={!input?.trim() && !selectedFile}
+                  onClick={sendPost}
+          >
+            Tweet
+          </button>
         </div>
       </div>
     </div>
