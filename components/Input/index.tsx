@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({}) => {
-  const {data: session} = useSession();
+  // const {data: session} = useSession();
   const [input, setInput] = React.useState<string>("");
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
   const [isShowEmojis, setIsShowEmojis] = React.useState<boolean>(false);
@@ -54,11 +54,11 @@ const Input: React.FC<InputProps> = ({}) => {
 
     const docRef = await addDoc(collection(db, 'posts'), {
       // @ts-ignore
-      id: session?.user?.uid,
-      username: session?.user?.name,
-      userImg: session?.user?.image,
+      // id: session?.user?.uid,
+      // username: session?.user?.name,
+      // userImg: session?.user?.image,
       // @ts-ignore
-      tag: session?.user.tag,
+      // tag: session?.user.tag,
       text: input,
       timestamp: serverTimestamp(),
     });
@@ -81,7 +81,9 @@ const Input: React.FC<InputProps> = ({}) => {
   };
 
   return (
-    <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll`}>
+    <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide
+    ${isLoading && "opacity-60"}
+    `}>
       <img
         className="h-11 w-11 rounded-full cursor-pointer"
         src="https://lh3.googleusercontent.com/ogw/ADea4I5Aafifqv-1BMMbYMQrr2sQZqwOIwG1hGzD6EaB=s32-c-mo"
@@ -114,56 +116,58 @@ const Input: React.FC<InputProps> = ({}) => {
           )}
         </div>
 
-        <div className="flex items-center justify-between pt-2.5">
-          <div className="flex items-center">
-            <div
-              className="icon"
-              onClick={() => filePickerRef.current?.click()}
-            >
-              <PhotographIcon className="text-[#1d9bf0] h-[22px]"/>
-              <input
-                type="file"
-                ref={filePickerRef}
-                onChange={addImageToPost}
-                hidden
-              />
-            </div>
+        {!isLoading &&
+            <div className="flex items-center justify-between pt-2.5">
+                <div className="flex items-center">
+                    <div
+                        className="icon"
+                        onClick={() => filePickerRef.current?.click()}
+                    >
+                        <PhotographIcon className="text-[#1d9bf0] h-[22px]"/>
+                        <input
+                            type="file"
+                            ref={filePickerRef}
+                            onChange={addImageToPost}
+                            hidden
+                        />
+                    </div>
 
-            <div className="icon rotate-90">
-              <ChartBarIcon className="text-[#1d9bf0] h-[22px]"/>
-            </div>
+                    <div className="icon rotate-90">
+                        <ChartBarIcon className="text-[#1d9bf0] h-[22px]"/>
+                    </div>
 
-            <div className="icon" onClick={() => setIsShowEmojis(!isShowEmojis)}>
-              <EmojiHappyIcon className="text-[#1d9bf0] h-[22px]"/>
-            </div>
+                    <div className="icon" onClick={() => setIsShowEmojis(!isShowEmojis)}>
+                        <EmojiHappyIcon className="text-[#1d9bf0] h-[22px]"/>
+                    </div>
 
-            <div className="icon">
-              <CalendarIcon className="text-[#1d9bf0] h-[22px]"/>
-            </div>
+                    <div className="icon">
+                        <CalendarIcon className="text-[#1d9bf0] h-[22px]"/>
+                    </div>
 
-            {isShowEmojis && (
-              <Picker
-                onSelect={addEmoji}
-                style={{
-                  position: "absolute",
-                  marginTop: "465px",
-                  marginLeft: -40,
-                  maxWidth: "320px",
-                  borderRadius: "20px",
-                }}
-                theme="dark"
-              />
-            )}
-          </div>
+                  {isShowEmojis && (
+                    <Picker
+                      onSelect={addEmoji}
+                      style={{
+                        position: "absolute",
+                        marginTop: "465px",
+                        marginLeft: -40,
+                        maxWidth: "320px",
+                        borderRadius: "20px",
+                      }}
+                      theme="dark"
+                    />
+                  )}
+                </div>
 
-          <button className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md
+                <button className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md
           hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
-                  disabled={!input?.trim() && !selectedFile}
-                  onClick={sendPost}
-          >
-            Tweet
-          </button>
-        </div>
+                        disabled={!input?.trim() && !selectedFile}
+                        onClick={sendPost}
+                >
+                    Tweet
+                </button>
+            </div>
+        }
       </div>
     </div>
   )

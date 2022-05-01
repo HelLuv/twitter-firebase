@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {SparklesIcon} from "@heroicons/react/outline";
+
 import {Input} from "../index";
 
 interface FeedsProps {
