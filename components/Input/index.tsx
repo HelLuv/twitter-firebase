@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon, XIcon} from "@heroicons/react/outline";
+import {EmojiData, Picker} from 'emoji-mart';
+import "emoji-mart/css/emoji-mart.css";
 
 interface InputProps {
 
@@ -24,6 +26,18 @@ const Input: React.FC<InputProps> = ({}) => {
     reader.onload = (readerEvent) => {
       setSelectedFile(readerEvent.target?.result as string);
     }
+  }
+
+  const addEmoji = (e: EmojiData) => {
+    // @ts-ignore
+    const sym = e.unified.split("-");
+    const codesArray: string[] = [];
+    
+    sym.forEach((el: string) => codesArray.push("0x" + el));
+    // @ts-ignore
+    const emoji = String.fromCodePoint(...codesArray);
+
+    setInput(input + emoji)
   }
 
   return (
@@ -86,6 +100,20 @@ const Input: React.FC<InputProps> = ({}) => {
             <div className="icon">
               <CalendarIcon className="text-[#1d9bf0] h-[22px]"/>
             </div>
+
+            {isShowEmojis && (
+              <Picker
+                onSelect={addEmoji}
+                style={{
+                  position: "absolute",
+                  marginTop: "465px",
+                  marginLeft: -40,
+                  maxWidth: "320px",
+                  borderRadius: "20px",
+                }}
+                theme="dark"
+              />
+            )}
 
           </div>
         </div>
