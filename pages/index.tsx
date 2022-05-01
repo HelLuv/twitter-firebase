@@ -1,5 +1,6 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
+import {Sidebar} from "../components";
 
 const Home: NextPage = () => {
   return (
@@ -10,8 +11,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
 
-      <main>
-        {/*  Sidebar */}
+      <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto">
+        <Sidebar/>
         {/*  Feeds */}
         {/*  Widgets */}
 
