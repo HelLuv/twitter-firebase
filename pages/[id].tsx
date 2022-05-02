@@ -9,7 +9,7 @@ import {
 import Head from 'next/head'
 import {getProviders, getSession, useSession} from "next-auth/react";
 import {NextPage} from "next";
-import {Comment, Login, Modal, Post, Sidebar} from "../components";
+import {Comment, Login, Modal, Post, Sidebar, Widgets} from "../components";
 import {useRecoilState} from "recoil";
 import {useRouter} from "next/router";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
@@ -22,7 +22,7 @@ interface PostPageProps {
 
 }
 
-const PostPage: NextPage<any> = ({trendingResults, followData, providers}) => {
+const PostPage: NextPage<any> = ({trendingData, followData, providers}) => {
   const {data: session} = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
   const [post, setPost] = React.useState<any>(null);
@@ -90,7 +90,7 @@ const PostPage: NextPage<any> = ({trendingResults, followData, providers}) => {
             </ul>
           )}
         </div>
-        {/*  Widgets */}
+        <Widgets followData={followData} trendingData={trendingData}/>
 
         {isOpen && <Modal/>}
       </main>

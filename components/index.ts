@@ -1,8 +1,11 @@
-export {default as Sidebar} from "./Sidebar";
-export {default as SidebarLink} from "./SidebarLink";
+export {default as Comment} from "./Comment";
 export {default as Feeds} from "./Feeds";
+export {default as Follow} from "./Follow";
 export {default as Input} from "./Input";
 export {default as Login} from "./Login";
-export {default as Post} from "./Post";
 export {default as Modal} from "./Modal";
-export {default as Comment} from "./Comment";
+export {default as Post} from "./Post";
+export {default as SidebarLink} from "./SidebarLink";
+export {default as Sidebar} from "./Sidebar";
+export {default as Trending} from "./Trending";
+export {default as Widgets} from "./Widgets";
