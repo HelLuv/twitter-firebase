@@ -85,7 +85,6 @@ const PostPage: NextPage<any> = ({trendingResults, followData, providers}) => {
                 <Comment
                   key={comment.id}
                   comment={comment.data()}
-                  id={comment.id}
                 />
               ))}
             </ul>
