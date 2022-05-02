@@ -64,7 +64,7 @@ const Modal: React.FC<ModalProps> = ({}) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-[#526475] bg-opacity-40 transition-opacity"/>
+            <Dialog.Overlay className="fixed inset-0 bg-[#292F3FB0] bg-opacity-40 transition-opacity"/>
           </Transition.Child>
 
           <Transition.Child
