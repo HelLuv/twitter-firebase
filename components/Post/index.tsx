@@ -13,6 +13,11 @@ import {useSession} from "next-auth/react";
 import {
   HeartIcon as HeartIconFilled,
 } from "@heroicons/react/solid";
+import {useRecoilState} from "recoil";
+
+import {modalState, postIdState} from "../../atoms/modalAtom";
+import {db} from "../../firebase"
+import {useRouter} from "next/router";
 
 interface PostProps {
   id: string;
@@ -22,12 +27,16 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({post, id, isPostPage}) => {
   const {data: session} = useSession();
+  const [isOpen, setIsOpen] = useRecoilState(modalState);
+  const [postId, setPostId] = useRecoilState(postIdState);
   const [comments, setComments] = React.useState([]);
   const [likes, setLikes] = React.useState([]);
   const [isLiked, setIsLiked] = React.useState(false);
 
-  const handlePostOpen = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const router = useRouter();
+
+  const handlePostOpen = () => {
+    router.push(`/${id}`)
   };
 
   const handlePostComment = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -45,7 +54,7 @@ const Post: React.FC<PostProps> = ({post, id, isPostPage}) => {
   return (
     <div
       className="p-3 flex cursor-pointer border-b border-gray-700"
-      onClick={(e) => handlePostOpen(e)}
+      onClick={handlePostOpen}
     >
       {!isPostPage && (
         <img
