@@ -38,7 +38,7 @@ const PostPage: NextPage<any> = ({trendingData, followData, providers}) => {
       onSnapshot(doc(db, "posts", id), (snapshot) => {
         setPost(snapshot.data());
       }),
-    [db]
+    [db, id]
   );
 
   React.useEffect(
@@ -57,7 +57,7 @@ const PostPage: NextPage<any> = ({trendingData, followData, providers}) => {
   return (
     <div>
       <Head>
-        <title>{post?.username} on Twitter: "{post?.text}"</title>
+        <title>{post?.username} on Twitter: &quot;{post?.text}&quot;</title>
         <meta name="description" content="Twitter clone by Nick Miriad"/>
         <link rel="icon" href="/favicon.ico"/>
       </Head>

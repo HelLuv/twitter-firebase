@@ -26,6 +26,7 @@ const Login: React.FC<LoginProps> = ({providers}) => {
         width={150}
         height={150}
         objectFit="contain"
+        alt=""
       />
 
       <div>
