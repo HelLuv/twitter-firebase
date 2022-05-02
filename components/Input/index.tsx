@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({}) => {
-  // const {data: session} = useSession();
+  const {data: session} = useSession();
   const [input, setInput] = React.useState<string>("");
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
   const [isShowEmojis, setIsShowEmojis] = React.useState<boolean>(false);
@@ -53,12 +53,10 @@ const Input: React.FC<InputProps> = ({}) => {
     setIsLoading(true);
 
     const docRef = await addDoc(collection(db, 'posts'), {
-      // @ts-ignore
-      // id: session?.user?.uid,
-      // username: session?.user?.name,
-      // userImg: session?.user?.image,
-      // @ts-ignore
-      // tag: session?.user.tag,
+      id: session?.user?.uid,
+      username: session?.user?.name,
+      userImg: session?.user?.image,
+      tag: session?.user.tag,
       text: input,
       timestamp: serverTimestamp(),
     });
@@ -86,7 +84,7 @@ const Input: React.FC<InputProps> = ({}) => {
     `}>
       <img
         className="h-11 w-11 rounded-full cursor-pointer"
-        src="https://lh3.googleusercontent.com/ogw/ADea4I5Aafifqv-1BMMbYMQrr2sQZqwOIwG1hGzD6EaB=s32-c-mo"
+        src={session?.user.image!}
         alt="profile image"
       />
       <div className="w-full divide-y divide-gray-700">
