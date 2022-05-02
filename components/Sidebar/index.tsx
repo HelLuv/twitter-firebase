@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Image from "next/image";
-import {SidebarLink} from "../index";
 import {
   BellIcon,
   BookmarkIcon,
@@ -11,13 +10,17 @@ import {
   UserIcon
 } from "@heroicons/react/outline";
 import {HomeIcon} from "@heroicons/react/solid";
+import {signOut, useSession} from "next-auth/react";
+
+import {SidebarLink} from "../index";
 
 interface SidebarProps {
 
 }
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
-  // TODO: Sidebar
+  const {data: session} = useSession();
+
   return (
     <aside className="hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full">
       <div className="flex items-center justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24">
@@ -41,15 +44,15 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       </button>
 
       <div className="text-[#d9d9d9] flex items-center justify-center
-      hoverAnimation xl:ml-auto xl:-mr-5 mt-auto">
+      hoverAnimation xl:ml-auto xl:-mr-5 mt-auto" onClick={() => signOut()}>
         <img
           className="h-10 w-10 rounded-full xl:mr-2.5"
-          src="https://lh3.googleusercontent.com/ogw/ADea4I5Aafifqv-1BMMbYMQrr2sQZqwOIwG1hGzD6EaB=s32-c-mo"
+          src={session?.user.image!}
           alt="profile image"
         />
         <div className="hidden xl:inline leading-5">
-          <h4 className="font-bold">Profile Name</h4>
-          <p className="text-[#6e767d]">@profileTag</p>
+          <h4 className="font-bold">{session?.user.name || "Username"}</h4>
+          <p className="text-[#6e767d]">@{session?.user.tag || "usertag"}</p>
         </div>
         <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10"/>
       </div>
