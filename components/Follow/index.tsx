@@ -8,13 +8,14 @@ interface FollowProps {
 const Follow: React.FC<FollowProps> = ({result}) => {
   return (
     <div
-      className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-2 cursor-pointer transition duration-200 ease-out flex items-center"
-    >
+      className="hover:bg-white hover:bg-opacity-[0.03]
+                 px-4 py-2 cursor-pointer transition
+                 duration-200 ease-out flex items-center">
       <img
         src={result.userImg || ""}
         width={50}
         height={50}
-        className="rounded-full"
+        className="rounded-full object-cover"
         alt="follow image"
       />
       <div className="ml-4 leading-5 group">

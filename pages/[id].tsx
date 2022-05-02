@@ -101,7 +101,7 @@ const PostPage: NextPage<any> = ({trendingData, followData, providers}) => {
 export async function getServerSideProps(context: CtxOrReq) {
   const trendingData = await fetch("https://jsonkeeper.com/b/NKEV")
     .then((res) => res.json());
-  const followData = await fetch("https://jsonkeeper.com/b/NKEV")
+  const followData = await fetch("https://jsonkeeper.com/b/L6W4")
     .then((res) => res.json());
 
   const providers = await getProviders();

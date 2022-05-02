@@ -37,6 +37,10 @@ a {
         flex items-center justify-center rounded-full transition ease-out
     }
 
+    .tag {
+        @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
+    }
+
     .logBtn {
         @apply relative inline-flex items-center justify-start
         px-6 py-3 overflow-hidden font-medium transition-all
