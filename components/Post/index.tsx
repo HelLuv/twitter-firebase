@@ -66,8 +66,11 @@ const Post: React.FC<PostProps> = ({post, id, isPostPage}) => {
     router.push(`/${id}`)
   };
 
-  const handleCommentPost = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
+
+    setPostId(id);
+    setIsOpen(true);
   };
 
   const handleDeletePost = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -155,7 +158,7 @@ const Post: React.FC<PostProps> = ({post, id, isPostPage}) => {
         >
           <div
             className="flex items-center space-x-1 group"
-            onClick={(e) => handleCommentPost(e)}
+            onClick={(e) => handleOpenModal(e)}
           >
             <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
               <ChatIcon className="h-5 group-hover:text-[#1d9bf0]"/>

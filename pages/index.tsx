@@ -1,11 +1,14 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {Feeds, Login, Sidebar} from "../components";
+import {Feeds, Login, Modal, Sidebar} from "../components";
 import {getProviders, getSession, useSession} from "next-auth/react";
 import {CtxOrReq} from "next-auth/client/_utils";
+import {useRecoilState} from "recoil";
+import {modalState} from "../atoms/modalAtom";
 
 const Home: NextPage<any> = ({trendingResults, followData, providers}) => {
   const {data: session} = useSession();
+  const [isOpen, setIsOpen] = useRecoilState(modalState);
 
   if (!session) return <Login providers={providers}/>
 
@@ -22,7 +25,7 @@ const Home: NextPage<any> = ({trendingResults, followData, providers}) => {
         <Feeds/>
         {/*  Widgets */}
 
-        {/*  Modal */}
+        {isOpen && <Modal/>}
       </main>
 
     </div>
