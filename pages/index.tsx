@@ -1,6 +1,8 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
 import {Feeds, Sidebar} from "../components";
+import {getProviders, getSession} from "next-auth/react";
+import {CtxOrReq} from "next-auth/client/_utils";
 
 const Home: NextPage = () => {
   return (
@@ -23,4 +25,23 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;
+
+export async function getServerSideProps(context: CtxOrReq) {
+  const trendingData = await fetch("https://jsonkeeper.com/b/NKEV")
+    .then((res) => res.json());
+  const followData = await fetch("https://jsonkeeper.com/b/NKEV")
+    .then((res) => res.json());
+
+  const providers = await getProviders();
+  const session = await getSession(context);
+
+  return {
+    props: {
+      trendingData,
+      followData,
+      providers,
+      session,
+    },
+  };
+}
