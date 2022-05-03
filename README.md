@@ -1,8 +1,7 @@
 # Twitter clone using modern technology stack
 
 Сreate new tweets, like, delete and reply, attach emojis and images
-
-[![Twitter](https://ibb.co/bspf011)](https://twitter-firebase-six.vercel.app/)
+[![Twitter](https://i.ibb.co/y6L3900/1.png)](https://twitter-firebase-six.vercel.app/)
 
 ## Link to application page  [Twitter](https://twitter-firebase-six.vercel.app/)
 
